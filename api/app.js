@@ -4,6 +4,9 @@
 const express = require('express');
 const morgan = require('morgan');
 
+// Import cors Library
+const cors = require('cors');
+
 // load database
 const { sequelize, models } = require('./db');
 
@@ -22,8 +25,13 @@ sequelize
   })
   .catch(err => console.log('Error: ' + err))
 
+
+
 // create the Express app
 const app = express();
+
+// enable all CORS requests
+app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));

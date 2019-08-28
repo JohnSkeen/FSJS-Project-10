@@ -13,7 +13,7 @@ class Courses extends Component {
     }
 
     Courses = () => {
-      axios.get('http://localhost:5000/api/courses/')
+      axios.get(`${this.props.baseURL}/courses`)
         .then(res => { this.setState(res.data)})
         .catch(err => this.props.history.push('/error'));
     }

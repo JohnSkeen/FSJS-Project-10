@@ -4,7 +4,7 @@ import Form from './Form';
 
 export default class UserSignIn extends Component {
   state = {
-    username: '',
+    emailAddress: '',
     password: '',
     errors: [],
   }
@@ -79,7 +79,6 @@ export default class UserSignIn extends Component {
           });
         } else {
           this.props.history.push(from);
-          console.log(`Nice, ${emailAddress} is now signed in!`)
         }
       })
       .catch((error) => {

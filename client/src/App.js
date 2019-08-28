@@ -31,7 +31,7 @@ const UserSignOutWithContext = withContext(UserSignOut);
 export default class App extends Component {
 
   state = {
-    baseURL: config.BaseURL,
+    baseURL: config.apiBaseURL,
   };
 
   render() {

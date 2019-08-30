@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import ReactMarkdown from 'react-markdown';
+import config from '../config';
 import axios from 'axios';
 
 class CourseDetail extends Component {
@@ -18,6 +19,7 @@ class CourseDetail extends Component {
 
   //course handler
   handleCourse = () => {
+    // axios seems superior to fetch for get routes as it simplifies JSON handling
     axios.get(`${this.props.baseURL}/courses/${this.props.match.params.id}`)
       .then(res => {
         const courseInfo = res.data;
@@ -36,21 +38,23 @@ class CourseDetail extends Component {
     this._isMounted = false;
   }
 
-  handleDelete = (e) => {
+  // delete handler
+  handleDelete = async (e) => {
     e.preventDefault();
     const { context } = this.props;
+    let password = prompt("Please enter your password");
     const authUser = context.authenticatedUser;
-    console.log(authUser);
-    const credentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
-    const options = {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Basic ${credentials}`,
+    // used axios here to ensure that I know how to do an axios post as well as get
+    axios.delete(`${config.apiBaseURL}/courses/${this.state.course.id}`, {
+      method: 'DELETE',
+      auth: {
+        username: `${authUser.emailAddress}`,
+        password: password
       },
-    };
-    fetch(`${this.props.baseURL}/courses/${this.state.course.id}`, options)
-      .then(response => {
+      data: {
+        id: this.state.id
+      }
+    }).then(response => {
         if(response.status === 401) {
           this.props.history.push("/forbidden");
         } else {

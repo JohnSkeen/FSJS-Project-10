@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import Form from './Form';
 
 export default class UserSignUp extends Component {
-  
+
   state = {
-    name: '',
+    firstName: '',
+    lastName: '',
     emailAddress: '',
     password: '',
-    errors: [],
+    confirmPassword: '',
+    errors: '',
   }
 
   render() {
@@ -95,6 +97,7 @@ export default class UserSignUp extends Component {
       lastName,
       emailAddress,
       password,
+      confirmPassword
     } = this.state;
 
     // Create user
@@ -105,6 +108,28 @@ export default class UserSignUp extends Component {
       password,
     };
 
+    if(!firstName) {
+      this.setState({
+        errors: 'A first name is required'
+      })
+    } else if(!lastName) {
+      this.setState({
+        errors: 'A last name is required'
+      })
+    } else if(!emailAddress) {
+      this.setState({
+        errors: 'An email is required'
+      })    
+    } else if(!password) {
+      this.setState({
+        errors: 'A password is required'
+      })
+    } else if (password !== confirmPassword) {
+      this.setState({
+        errors: 'Passwords must match.'
+      })
+    } else {
+
     context.data.createUser(user)
       .then( errors => {
         if (errors.length) {
@@ -113,16 +138,16 @@ export default class UserSignUp extends Component {
           context.actions.signIn(emailAddress, password)
             .then(() => {
               this.props.history.push('/courses');
-            }).catch((err) => {
+            }).catch((errors) => {
               this.props.history.push('/error');
             });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((errors) => {
+        console.log(errors);
         this.props.history.push('/error');
       });
-
+    }
   }
 
   cancel = () => {

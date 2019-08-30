@@ -6,7 +6,7 @@ export default class UserSignIn extends Component {
   state = {
     emailAddress: '',
     password: '',
-    errors: [],
+    errors: '',
   }
 
   render() {
@@ -71,6 +71,16 @@ export default class UserSignIn extends Component {
     const { from } = this.props.location.state || { from: { pathname: '/courses' } };
     const { emailAddress, password } = this.state;
 
+    if(!emailAddress) {
+      this.setState({
+        errors: 'An email address is required'
+      })
+    } else if (!password) {
+      this.setState({
+        errors: 'A password is required'
+      })
+    } else {
+
     context.actions.signIn(emailAddress, password)
       .then((user) => {
         if (user === null) {
@@ -85,6 +95,7 @@ export default class UserSignIn extends Component {
         console.error(error);
         this.props.history.push('/error');
       });
+    }
   }
 
   cancel = () => {

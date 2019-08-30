@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+// mmm, cookies
 import Cookies from 'js-cookie';
 import Data from './Data';
 
@@ -13,6 +15,27 @@ export class Provider extends Component {
   constructor() {
     super();
     this.data = new Data();
+  }
+
+  signIn = async (emailAddress, password) => {
+    const user = await this.data.getUser(emailAddress, password);
+    if (user !== null) {
+      this.setState(() => {
+        return {
+          authenticatedUser: { user, password: password },
+          courses: []
+        };
+      });
+      // preserve the User State with cookies
+      Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
+    }
+    return user;
+  }
+
+  signOut = () => {
+    this.setState({ authenticatedUser: null });
+    // remove User State cookies
+    Cookies.remove('authenticatedUser');
   }
 
   render() {
@@ -30,26 +53,6 @@ export class Provider extends Component {
         {this.props.children}
       </Context.Provider>
     );
-  }
-
-
-  signIn = async (emailAddress, password) => {
-    const user = await this.data.getUser(emailAddress, password);
-    if (user !== null) {
-      this.setState(() => {
-        return {
-          authenticatedUser: { user, password: password },
-          courses: []
-        };
-      });
-      Cookies.set('authenticatedUser', JSON.stringify(user), {expires: 1});
-    }
-    return user;
-  }
-
-  signOut = () => {
-    this.setState({ authenticatedUser: null });
-    Cookies.remove('authenticatedUser');
   }
 }
 

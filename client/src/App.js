@@ -43,6 +43,7 @@ export default class App extends Component {
               <Switch>
                 <Redirect exact from='/' to='/courses' />
                 <Route exact path='/courses' render={ () => <Courses baseURL={this.state.baseURL} /> } />
+                // two private routes that are only displayed when authenticated
                 <PrivateRoute path='/courses/create' component={CreateCourseWithContext} baseURL={this.state.baseURL} />
                 <PrivateRoute exact path='/courses/:id/update' component={UpdateCourseWithContext} />
                 <Route path='/courses/:id' render= { props => <CourseDetailWithContext {...props} baseURL={this.state.baseURL} />} />

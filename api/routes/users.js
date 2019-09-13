@@ -18,6 +18,7 @@ router.get('/', authenticate, (req, res) => {
       firstName: req.currentUser.firstName,
       lastName: req.currentUser.lastName,
       emailAddress: req.currentUser.emailAddress,
+      password: req.currentUser.password
   });
   res.end();
 });

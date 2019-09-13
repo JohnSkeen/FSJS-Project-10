@@ -77,7 +77,6 @@ class UpdateCourse extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { context } = this.props;
-    const password = prompt("What is your password?");
     const authUser = context.authenticatedUser;
     const {
       title,
@@ -85,7 +84,8 @@ class UpdateCourse extends Component {
       estimatedTime,
       materialsNeeded
     } = this.state;
-    const credentials = btoa(`${authUser.emailAddress}:` + password);
+    const credentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
+    console.log(credentials);
     const response = await fetch(`${config.apiBaseURL}/courses/${this.state.id}`, {
       method: "PUT",
       headers: {

@@ -41,7 +41,6 @@ class CreateCourse extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { context } = this.props;
-    const password = prompt("What is your password?");
     const authUser = context.authenticatedUser;
     const userId = authUser.id;
     const {
@@ -50,7 +49,7 @@ class CreateCourse extends Component {
       estimatedTime,
       materialsNeeded,
     } = this.state;
-    const credentials = btoa(`${authUser.emailAddress}:` + password);
+    const credentials = btoa(`${authUser.emailAddress}:${authUser.password}`);
     const response = await fetch(`${config.apiBaseURL}/courses`, {
       method: "POST",
       headers: {

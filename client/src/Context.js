@@ -22,8 +22,7 @@ export class Provider extends Component {
     if (user !== null) {
       this.setState(() => {
         return {
-          authenticatedUser: { user, password: password },
-          courses: []
+          authenticatedUser: user,
         };
       });
       // preserve the User State with cookies

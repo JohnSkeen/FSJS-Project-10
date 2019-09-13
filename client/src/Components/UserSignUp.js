@@ -58,14 +58,14 @@ export default class UserSignUp extends Component {
                 <input
                   id="password"
                   name="password"
-                  type="text"
+                  type="password"
                   placeholder="Password"
                   value={password}
                   onChange={this.change} />
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="text"
+                  type="password"
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={this.change} />
@@ -119,7 +119,7 @@ export default class UserSignUp extends Component {
     } else if(!emailAddress) {
       this.setState({
         errors: 'An email is required'
-      })    
+      })
     } else if(!password) {
       this.setState({
         errors: 'A password is required'

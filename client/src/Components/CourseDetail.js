@@ -42,14 +42,13 @@ class CourseDetail extends Component {
   handleDelete = async (e) => {
     e.preventDefault();
     const { context } = this.props;
-    let password = prompt("Please enter your password");
     const authUser = context.authenticatedUser;
     // used axios here to ensure that I know how to do an axios post as well as get
     axios.delete(`${config.apiBaseURL}/courses/${this.state.course.id}`, {
       method: 'DELETE',
       auth: {
         username: `${authUser.emailAddress}`,
-        password: password
+        password: `${authUser.password}`
       },
       data: {
         id: this.state.id
